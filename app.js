@@ -9,10 +9,11 @@ var session = require('express-session');
 var localStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var User = require('./models/user');
-var register = require('./routes/register');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var register = require('./routes/register');
 
 var app = express();
 
@@ -47,7 +48,9 @@ passport.use('local', new localStrategy ({passReqToCallback: true, usernameField
     //test a matching password
     user.comparePassword(password, function (err, isMatch) {
       if (err) alert('matchtest' + err);
-      if (isMatch) return done(null, user);
+      if (isMatch) {
+        console.log('User is logged in');
+        return done(null, user);}
       else done(null, false, {message: 'Incorrect username and password!'});
     });
   });
@@ -82,6 +85,30 @@ mongoDB.once('open', function(){
   console.log('mongodb connection open');
 });
 
+
+// Append Users
+function appendData(userData) {
+  $('.appendhere').append(userData);
+}
+
+// AJAX call to pull user Data
+function getUsers() {
+  $.ajax({
+    url: '..views/register',     //where are my USERS??????
+    dataType: 'json',
+    method: 'get',
+    success: function (response) {
+
+      console.log("Some Data", response);
+      appendData(response);
+    },
+    error: function (err) {
+      console.log("data get epic fail");
+      console.log(err);
+    }
+  });
+}
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -115,3 +142,7 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+//$(document).ready(function() {
+//  getUsers();
+//});
