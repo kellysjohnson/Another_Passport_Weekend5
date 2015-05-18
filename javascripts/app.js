@@ -5,7 +5,7 @@ function appendData(userData) {
     var containsData = '<div class="holder" "small">';
 
     for (var j = 0; j < userData.length; j++) {
-        containsData += '<div> username: ' + userData[j].username + '</div><div> firstname: ' + userData[j].firstname + '</div><div> lastname: ' + userData[j].lastname + '</div><div> email: ' + userData[j].email + '</div><br/>'
+        containsData += '<div class="style"><div> username: ' + userData[j].username + '</div><div> firstname: ' + userData[j].firstname + '</div><div> lastname: ' + userData[j].lastname + '</div><div> email: ' + userData[j].email + '</div></div><br/>'
     }
     $('.appendhere').append(containsData + '</div>');
     console.log(containsData);
