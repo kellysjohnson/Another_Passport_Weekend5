@@ -12,7 +12,7 @@ function getUsers(data) {
     $.ajax({
         type: 'GET',
         url: '/users/getData',                              //  where are my USERS??????   Answer: you have to look for them in /getData.
-        datatype: 'application/json',                       //  This is AFTER creating a route where the Users.find method is performed.
+        datatype: 'application/json',                       //  This is after creating a route
         success: function (response) {
             console.log("Some Data", response);
             appendData(response);

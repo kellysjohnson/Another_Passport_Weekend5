@@ -2,18 +2,17 @@
 
 // Append Users
 function appendData(userData) {
-    for (var j = 0; j < userData.length; j++) {
-        $('.appendhere').append(userData[j].username + "<br>");
-    }
+    $('.appendhere').append(userData);
 }
 
 // AJAX call to pull user Data
 function getUsers(data) {
     $.ajax({
-        type: 'GET',
-        url: '/users/getData',                              //  where are my USERS??????   Answer: you have to look for them in /getData.
-        datatype: 'application/json',                       //  This is AFTER creating a route where the Users.find method is performed.
+        url: '/public/views/register',     //where are my USERS??????
+        dataType: 'json',
+        method: 'get',
         success: function (response) {
+
             console.log("Some Data", response);
             appendData(response);
         },
@@ -29,5 +28,5 @@ function getUsers(data) {
 //}
 
 $(document).ready(function (){
-    getUsers();
-});
+        getUsers();
+   });

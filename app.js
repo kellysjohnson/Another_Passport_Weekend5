@@ -17,6 +17,18 @@ var register = require('./routes/register');
 
 var app = express();
 
+// Mongo setup
+var mongoURI = 'mongodb://localhost:27017/Weekend_Challenge';
+var mongoDB = mongoose.connect(mongoURI).connection;
+
+mongoDB.on('error', function(err){
+  console.log('mongodb connection error', err);
+});
+
+mongoDB.once('open', function(){
+  console.log('mongodb connection open');
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -38,7 +50,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.serializeUser(function(user, done){
+  done(null, user.id);
+});
 
+passport.deserializeUser(function (id, done){
+  user.findById (id, function(err, user) {
+    if (err)  done(err);
+    done(null, user);
+  });
+});
 
 passport.use('local', new localStrategy ({passReqToCallback: true, usernameField:'username'}, function(req, username, password, done) {
   user.findOne({username: username}, function (err, user) {
@@ -56,35 +77,11 @@ passport.use('local', new localStrategy ({passReqToCallback: true, usernameField
   });
 }));
 
-    passport.serializeUser(function(user, done){
-        done(null, user.id);
-          });
-
-    passport.deserializeUser(function (id, done){
-        user.findById (id, function(err, user) {
-          if (err)  done(err);
-          done(null, user);
-        });
-    });
-
 
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/register', register);
-
-// Mongo setup
-var mongoURI = 'mongodb://localhost:27017/Weekend_Challenge';
-var mongoDB = mongoose.connect(mongoURI).connection;
-
-mongoDB.on('error', function(err){
-  console.log('mongodb connection error', err);
-});
-
-mongoDB.once('open', function(){
-  console.log('mongodb connection open');
-});
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
