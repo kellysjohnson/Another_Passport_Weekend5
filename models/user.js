@@ -10,25 +10,32 @@ var UserSchema = new Schema ({
     lastname: {type: String, required: true},
     email: {type: String, required: true}
 });
+//console.log(UserSchema);
 
 
 
 UserSchema.pre('save', function(next){
-    var User = this;
+    var user = this;
 
     //only hash the password if it has been modified (or is new)
-    if (!User.isModified('password')) return next();
+    if (!user.isModified('password')) return next();
 
     //generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt){
-        if (err) return next (err);
-
+        if (err) {
+            console.log ("genSalt" + err);
+            return next (err);
+        }
     //hash the password along with our new salt
-    bcrypt.hash(User.password, salt, function(err, hash){
-        if (err) return next (err);
+    bcrypt.hash(user.password, salt, function(err, hash){
+        if (err) {
+            console.log ("hash" + err);
+            return next (err);
+        }
 
    //override the cleartext password with the hashed one
-        User.password = hash;
+        user.password = hash;
+        console.log(user.password);
         next();
 
         });
@@ -43,4 +50,6 @@ UserSchema.pre('save', function(next){
         });
     };
 
-module.exports = mongoose.model('User', UserSchema);
+    //
+
+module.exports = mongoose.model('user', UserSchema);

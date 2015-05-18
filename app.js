@@ -8,7 +8,7 @@ var passport = require('passport');
 var session = require('express-session');
 var localStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var User = require('./models/user');
+var user = require('./models/user');
 
 
 var routes = require('./routes/index');
@@ -32,7 +32,7 @@ app.use(session({
   secret:'secret',
   key:'user',
   resave: true,
-  saveUnitialized: false,
+  saveUninitialized: false,
   cookie: {maxAge: 60000, secure:false}
 }));
 app.use(passport.initialize());
@@ -41,13 +41,13 @@ app.use(passport.session());
 
 
 passport.use('local', new localStrategy ({passReqToCallback: true, usernameField:'username'}, function(req, username, password, done) {
-  User.findOne({username: username}, function (err, user) {
-    if (err) alert('username' + err);
+  user.findOne({username: username}, function (err, user) {
+    if (err) console.log('username' + err);
     if (!user) return done(null, false, {message: 'Incorrect username and password!'});
 
     //test a matching password
     user.comparePassword(password, function (err, isMatch) {
-      if (err) alert('matchtest' + err);
+      if (err) console.log('matchtest' + err);
       if (isMatch) {
         console.log('User is logged in');
         return done(null, user);}
@@ -61,7 +61,7 @@ passport.use('local', new localStrategy ({passReqToCallback: true, usernameField
           });
 
     passport.deserializeUser(function (id, done){
-        User.findById (id, function(err, user) {
+        user.findById (id, function(err, user) {
           if (err)  done(err);
           done(null, user);
         });
@@ -142,6 +142,7 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
 
 //$(document).ready(function() {
 //  getUsers();
