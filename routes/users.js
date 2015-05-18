@@ -10,14 +10,9 @@ router.get('/', function (req, res, next){
   res.json(req.isAuthenticated());
 });
 
-router.get('/register', function(req, res, next){
-  res.sendFile(path.resolve(__dirname, '../views/users.html'));
-});
+//router.get('/', function(req, res, next){
+//  res.sendFile(path.resolve(__dirname, '../views/users.html'));
+//});
 
-router.post('/', passport.authenticate('local', {
-      successRedirect: '/users',
-      failureRedirect: '/'
-    })
-);
 
 module.exports = router;

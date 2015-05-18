@@ -11,8 +11,7 @@ router.get('/', function(req, res, next){
 router.post('/', function(req, res, next){
    Users.create(req.body, function(err, post){
        if (err) { next(err);
-       //{alert('register' + err);
-       } else res.redirect('/users');
+       } else res.redirect('/');
    })
 });
 
