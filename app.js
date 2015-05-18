@@ -86,29 +86,6 @@ mongoDB.once('open', function(){
 });
 
 
-// Append Users
-function appendData(userData) {
-  $('.appendhere').append(userData);
-}
-
-// AJAX call to pull user Data
-function getUsers() {
-  $.ajax({
-    url: '..views/register',     //where are my USERS??????
-    dataType: 'json',
-    method: 'get',
-    success: function (response) {
-
-      console.log("Some Data", response);
-      appendData(response);
-    },
-    error: function (err) {
-      console.log("data get epic fail");
-      console.log(err);
-    }
-  });
-}
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

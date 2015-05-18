@@ -10,7 +10,7 @@ router.get('/', function (req, res, next){
   res.json(req.isAuthenticated());
 });
 
-router.get('/', function(req, res, next){
+router.get('/register', function(req, res, next){
   res.sendFile(path.resolve(__dirname, '../views/users.html'));
 });
 
